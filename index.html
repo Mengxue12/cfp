@@ -14,6 +14,7 @@
   --hot:#b3261e; --hot-soft:#f7dedb; --warm:#a15c00; --warm-soft:#f6e7cf;
   --est:#8a867d;
   --chip:#eeeae0;
+  --ic-astar:#6d28d9; --ic-a:#1d4ed8; --ic-b:#0e7490; --ic-c:#64748b; --ic-fg:#ffffff;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -21,6 +22,7 @@
     --accent:#8cc7b3; --accent-soft:#233a33;
     --hot:#ff8a80; --hot-soft:#3d1f1c; --warm:#f0b35c; --warm-soft:#3a2e1a;
     --est:#7d7a72; --chip:#262723;
+    --ic-astar:#c4b5fd; --ic-a:#93c5fd; --ic-b:#67e8f9; --ic-c:#cbd5e1; --ic-fg:#141513;
   }
 }
 :root[data-theme="dark"]{
@@ -28,10 +30,11 @@
   --accent:#8cc7b3; --accent-soft:#233a33;
   --hot:#ff8a80; --hot-soft:#3d1f1c; --warm:#f0b35c; --warm-soft:#3a2e1a;
   --est:#7d7a72; --chip:#262723;
+  --ic-astar:#c4b5fd; --ic-a:#93c5fd; --ic-b:#67e8f9; --ic-c:#cbd5e1; --ic-fg:#141513;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
-.wrap{max-width:1200px;margin:0 auto;padding:32px 16px 64px}
+.wrap{max-width:1320px;margin:0 auto;padding:32px 16px 64px}
 header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:14px}
 h1{font-family:Fraunces,serif;font-weight:700;font-size:40px;line-height:1;margin:0;letter-spacing:-.02em}
 .sub{color:var(--muted);font-size:13px;margin-top:6px}
@@ -68,6 +71,12 @@ label.tog{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:cen
 .title a:hover{border-color:var(--ink)}
 .badge{font-size:11px;font-weight:600;padding:1px 6px;border-radius:4px;background:var(--chip);color:var(--muted)}
 .badge.ccfA{background:var(--accent);color:var(--bg)} .badge.ccfB{background:var(--accent-soft);color:var(--accent)}
+.ic{font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;color:var(--ic-fg);white-space:nowrap;display:inline-block}
+.ic.astar{background:var(--ic-astar)} .ic.a{background:var(--ic-a)} .ic.b{background:var(--ic-b)} .ic.c{background:var(--ic-c)}
+.ic.other{background:transparent;color:var(--muted);border:1px solid var(--line);font-weight:500}
+.ranks{display:flex;gap:4px;margin-top:4px}
+.ranks .ic,.ranks .badge{font-size:10px;padding:0 5px;line-height:16px;margin:0}
+.legend{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted);margin-top:10px}
 .badge.est{background:transparent;border:1px dashed var(--est);color:var(--est)}
 .full{color:var(--muted);font-size:13px}
 .meta{font-size:13px;margin-top:4px;color:var(--ink)}
@@ -86,7 +95,7 @@ label.tog{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:cen
 .seg button{font:inherit;font-size:13px;border:0;background:var(--panel);color:var(--muted);padding:5px 12px;cursor:pointer}
 .seg button.on{background:var(--ink);color:var(--bg)}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin-top:14px}
-table{border-collapse:collapse;width:100%;font-size:13px;min-width:900px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:880px}
 th{position:sticky;top:0;background:var(--panel);text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:10px 10px;border-bottom:2px solid var(--ink);white-space:nowrap}
 td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 tr:last-child td{border-bottom:0}
@@ -100,7 +109,7 @@ td.d{white-space:nowrap;font-variant-numeric:tabular-nums}
 td.d small{display:block;color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
 td.d .cd{font-size:11px;padding:0 5px;margin-top:2px}
 td.d.past{color:var(--muted);text-decoration:line-through}
-td.nm{min-width:200px;max-width:280px} td.nm .lbl{display:block;font-size:11px;color:var(--muted)}
+td.nm{min-width:190px;max-width:250px} td.ven{max-width:150px} td.nm .lbl{display:block;font-size:11px;color:var(--muted)}
 .dash{color:var(--line)}
 footer{margin-top:40px;font-size:12px;color:var(--muted)}
 @media (max-width:560px){
@@ -129,6 +138,7 @@ footer{margin-top:40px;font-size:12px;color:var(--muted)}
   <section class="controls">
     <input type="search" id="q" placeholder="Search name, place, note…">
     <div class="group" id="tagChips"><span>Topic</span></div>
+    <div class="group" id="icoreChips"><span>ICORE</span></div>
     <div class="group" id="ccfChips"><span>CCF</span></div>
     <div class="group" id="statusChips"><span>Status</span></div>
     <label class="tog"><input type="checkbox" id="showEst" checked> show estimated</label>
@@ -143,7 +153,7 @@ footer{margin-top:40px;font-size:12px;color:var(--muted)}
 <script>
 const DAY = 864e5;
 const now = Date.now();
-const state = { q:"", tags:new Set(), ccf:new Set(), status:new Set(), showEst:true, view:"table" };
+const state = { q:"", tags:new Set(), ccf:new Set(), icore:new Set(), status:new Set(), showEst:true, view:"table" };
 try{ const v=localStorage.getItem("cfp-view"); if(v) state.view=v; }catch(e){}
 let items = [];
 
@@ -217,6 +227,7 @@ function build(raw){
     out.push({ ...c,
       tags:(c.tags||[]).map(String),
       ccf: c.ccf ? String(c.ccf).toUpperCase() : "",
+      icore: c.icore ? String(c.icore).trim() : "",
       status: (c.status||"watching").toLowerCase(),
       next, action, others: cycles.filter(x=>x!==next && !x.est) });
   }
@@ -228,6 +239,9 @@ const fmtDate = t => new Date(t).toLocaleString(undefined,{weekday:"short",day:"
 const fmtShort = t => new Date(t).toLocaleDateString(undefined,{day:"numeric",month:"short"});
 const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 function fmtDay(v){ const m=String(v||"").match(/^(\d{4})-(\d{2})-(\d{2})/); return m?`${+m[3]} ${MON[+m[2]-1]} ${m[1]}`:esc(v||""); }
+function icoreClass(r){ return r==="A*"?"astar":r==="A"?"a":r==="B"?"b":r==="C"?"c":"other"; }
+function icoreKey(r){ return ["A*","A","B","C"].includes(r)?r:(r&&!/unranked/i.test(r)?"other":"none"); }
+function icoreBadge(r, long){ if(!r) return ""; const short = ["A*","A","B","C"].includes(r)?r:r.replace(/^National:\s*/,"National ").replace("Journal Published","Journal"); return `<span class="ic ${icoreClass(r)}" title="ICORE 2026: ${esc(r)}">${long?"ICORE ":""}${esc(short)}</span>`; }
 function daysLeft(t){ return Math.ceil((t-now)/DAY); }
 function heat(d){ return d<=7?"hot":d<=30?"warm":"cool"; }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
@@ -250,6 +264,7 @@ function visible(c){
   if(!state.showEst && c.next.est) return false;
   if(state.tags.size && !c.tags.some(t=>state.tags.has(t))) return false;
   if(state.ccf.size && !state.ccf.has(c.ccf||"none")) return false;
+  if(state.icore.size && !state.icore.has(icoreKey(c.icore))) return false;
   if(state.status.size && !state.status.has(c.status)) return false;
   if(state.q){
     const hay=[c.name,c.full,c.where,c.note,c.tags.join(" "),c.next.label].join(" ").toLowerCase();
@@ -288,6 +303,7 @@ function render(){
         <div class="title">
           ${c.link?`<a href="${esc(c.link)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:`<strong>${esc(c.name)}</strong>`}
           ${c.edition?`<span class="full">${esc(n.shift&&!isNaN(c.edition)?Number(c.edition)+n.shift:c.edition)}</span>`:""}
+          ${icoreBadge(c.icore,true)}
           ${c.ccf?`<span class="badge ccf${esc(c.ccf)}">CCF ${esc(c.ccf)}</span>`:""}
           ${n.est?`<span class="badge est">est.</span>`:""}
           ${n.label?`<span class="badge">${esc(n.label)}</span>`:""}
@@ -327,9 +343,9 @@ function renderTable(vis){
   const body=rows.map(({c,n,isNext})=>{
     const ed = n.shift&&!isNaN(c.edition)?Number(c.edition)+n.shift:c.edition;
     return `<tr class="${n.est?"est":""} ${esc(c.status)}">
-      <td class="acr">${c.link?`<a href="${esc(c.link)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:esc(c.name)} <span class="full">${esc(ed||"")}</span>${c.ccf?`<span class="badge ccf${esc(c.ccf)}">${esc(c.ccf)}</span>`:""}${n.est?`<span class="badge est">est.</span>`:""}</td>
+      <td class="acr">${c.link?`<a href="${esc(c.link)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:esc(c.name)} <span class="full">${esc(ed||"")}</span>${n.est?`<span class="badge est">est.</span>`:""}<div class="ranks">${icoreBadge(c.icore,true)}${c.ccf?`<span class="badge ccf${esc(c.ccf)}">CCF ${esc(c.ccf)}</span>`:""}</div></td>
       <td class="nm">${esc(c.full||"")}${n.label?`<span class="lbl">${esc(n.label)}</span>`:""}</td>
-      <td>${n.est?'<span class="dash">—</span>':esc(c.where||"")}</td>
+      <td class="ven">${n.est?'<span class="dash">—</span>':esc(c.where||"")}</td>
       ${deadlineCell(n.abstract, n.rawAbs, n.tz, n.est, isNext && n.abstract>now, n.shift)}
       ${deadlineCell(n.paper, n.rawPaper, n.tz, n.est, isNext && !(n.abstract>now), n.shift)}
       ${dayCell(n.notification)}
@@ -338,7 +354,8 @@ function renderTable(vis){
     </tr>`;}).join("");
   return `<div class="tablewrap"><table>
     <thead><tr><th>Acronym</th><th>Conference name</th><th>Venue</th><th>Abstract</th><th>Paper</th><th>Notification</th><th>Camera-ready</th><th>Conference date</th></tr></thead>
-    <tbody>${body}</tbody></table></div>`;
+    <tbody>${body}</tbody></table></div>
+    <div class="legend">ICORE 2026: ${icoreBadge("A*")} flagship ${icoreBadge("A")} excellent ${icoreBadge("B")} good ${icoreBadge("C")} other ranked · CCF: China Computer Federation list</div>`;
 }
 
 // ---------- calendar export ----------
@@ -367,6 +384,8 @@ fetch("conferences.yaml",{cache:"no-store"})
     makeChips("tagChips", tags, state.tags);
     const ranks=["A","B","C"].filter(r=>items.some(c=>c.ccf===r)); if(items.some(c=>!c.ccf)) ranks.push("none");
     makeChips("ccfChips", ranks, state.ccf, v=>v==="none"?"unranked":v);
+    const ik=["A*","A","B","C","other","none"].filter(k=>items.some(c=>icoreKey(c.icore)===k));
+    makeChips("icoreChips", ik, state.icore, v=>v==="none"?"unranked":v);
     makeChips("statusChips", [...new Set(items.map(c=>c.status))], state.status);
     document.getElementById("q").oninput=e=>{ state.q=e.target.value.trim().toLowerCase(); render(); };
     document.getElementById("showEst").onchange=e=>{ state.showEst=e.target.checked; render(); };
