@@ -383,19 +383,18 @@
 
 - name: ISPASS
   full: IEEE Int'l Symposium on Performance Analysis of Systems and Software
-  edition: 2026
+  edition: 2027
   tags: [perf, arch]
   ccf: C
   icore: B
-  link: https://ispass.org/ispass2026/
-  when: Apr 27–28, 2026
-  where: Seoul, South Korea
+  link: https://ispass.org/2027/cfp/
+  when: May 9–11, 2027
+  where: New York City, USA (NYU)
   status: watching
-  note: 2027 call not out yet; usually mid-December.
   deadlines:
-    - abstract: "2025-12-08 17:00"
-      paper: "2025-12-15 17:00"
-      tz: UTC-5
+    - abstract: "2026-12-11 23:59"
+      paper: "2026-12-18 23:59"
+      notification: "2027-03-08"
 
 # ── Performance evaluation ────────────────────────────────
 
