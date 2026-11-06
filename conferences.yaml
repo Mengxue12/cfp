@@ -179,6 +179,7 @@
   deadlines:
     - abstract: "2026-02-11 23:59"
       paper: "2026-02-16 23:59"
+      notification: "2026-04-29"
 
 # ── Networking ────────────────────────────────────────────
 
@@ -209,6 +210,7 @@
   deadlines:
     - abstract: "2026-02-16 23:59"
       paper: "2026-02-23 23:59"
+      notification: "2026-04-30"
 
 - name: NSDI
   full: USENIX Symposium on Networked Systems Design and Implementation
@@ -279,6 +281,7 @@
     - label: Fall
       abstract: "2026-09-17 23:59"
       paper: "2026-09-24 23:59"
+      notification: "2027-01-29"
 
 - name: ATC
   full: SIGOPS Annual Technical Conference
@@ -311,6 +314,7 @@
     - label: Round 2
       abstract: "2026-07-07 23:59"
       paper: "2026-07-14 23:59"
+      notification: "2026-09-26"
 
 - name: Middleware
   full: ACM/IFIP Int'l Middleware Conference
@@ -326,9 +330,13 @@
     - label: Round 1
       abstract: "2025-12-09 23:59"
       paper: "2025-12-12 23:59"
+      notification: "2026-03-06"
+      camera_ready: "2026-04-24"
     - label: Round 2
       abstract: "2026-05-29 23:59"
       paper: "2026-06-05 23:59"
+      notification: "2026-08-28"
+      camera_ready: "2026-10-16"
 
 # ── Architecture ──────────────────────────────────────────
 
