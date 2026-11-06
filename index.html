@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CFP Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+<style>
+:root{
+  --bg:#f6f4ef; --panel:#fffdf8; --ink:#1d1c1a; --muted:#6d6a63; --line:#e4dfd4;
+  --accent:#2f5d50; --accent-soft:#dfeae5;
+  --hot:#b3261e; --hot-soft:#f7dedb; --warm:#a15c00; --warm-soft:#f6e7cf;
+  --est:#8a867d;
+  --chip:#eeeae0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#141513; --panel:#1c1d1a; --ink:#ecebe6; --muted:#a29f96; --line:#2e2f2b;
+    --accent:#8cc7b3; --accent-soft:#233a33;
+    --hot:#ff8a80; --hot-soft:#3d1f1c; --warm:#f0b35c; --warm-soft:#3a2e1a;
+    --est:#7d7a72; --chip:#262723;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#141513; --panel:#1c1d1a; --ink:#ecebe6; --muted:#a29f96; --line:#2e2f2b;
+  --accent:#8cc7b3; --accent-soft:#233a33;
+  --hot:#ff8a80; --hot-soft:#3d1f1c; --warm:#f0b35c; --warm-soft:#3a2e1a;
+  --est:#7d7a72; --chip:#262723;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "IBM Plex Sans",system-ui,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:32px 16px 64px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;border-bottom:2px solid var(--ink);padding-bottom:14px}
+h1{font-family:Fraunces,serif;font-weight:700;font-size:40px;line-height:1;margin:0;letter-spacing:-.02em}
+.sub{color:var(--muted);font-size:13px;margin-top:6px}
+.mono{font-family:"IBM Plex Mono",monospace}
+.btn{font:inherit;font-size:13px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:6px 10px;cursor:pointer}
+.btn:hover{border-color:var(--ink)}
+
+.next{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:22px 0 6px}
+.next .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.next .days{font-family:Fraunces,serif;font-size:36px;font-weight:700;line-height:1}
+.next .days small{font:500 13px "IBM Plex Sans";color:var(--muted);margin-left:4px}
+.next .nm{font-weight:600;margin-top:6px}
+.next .dl{color:var(--muted);font-size:13px}
+.card.hot .days{color:var(--hot)} .card.warm .days{color:var(--warm)}
+
+.controls{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:22px 0 10px}
+.group{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.group > span{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.chip{font:inherit;font-size:13px;border:1px solid transparent;background:var(--chip);color:var(--ink);border-radius:999px;padding:3px 10px;cursor:pointer}
+.chip.on{background:var(--accent);color:var(--bg)}
+input[type=search]{font:inherit;font-size:14px;padding:6px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel);color:var(--ink);min-width:200px;flex:1}
+label.tog{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center;cursor:pointer}
+
+.month{font-family:Fraunces,serif;font-size:18px;font-weight:500;margin:26px 0 6px;color:var(--muted)}
+.row{display:grid;grid-template-columns:74px 1fr auto;gap:14px;align-items:start;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+.row.est{opacity:.72;border-style:dashed}
+.row.skip{opacity:.45}
+.date{text-align:center;border-right:1px solid var(--line);padding-right:12px}
+.date .d{font-family:Fraunces,serif;font-size:28px;font-weight:700;line-height:1}
+.date .m{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.date .y{font-size:11px;color:var(--muted)}
+.title{display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}
+.title a{color:var(--ink);font-weight:600;font-size:17px;text-decoration:none;border-bottom:1px solid var(--line)}
+.title a:hover{border-color:var(--ink)}
+.badge{font-size:11px;font-weight:600;padding:1px 6px;border-radius:4px;background:var(--chip);color:var(--muted)}
+.badge.ccfA{background:var(--accent);color:var(--bg)} .badge.ccfB{background:var(--accent-soft);color:var(--accent)}
+.badge.est{background:transparent;border:1px dashed var(--est);color:var(--est)}
+.full{color:var(--muted);font-size:13px}
+.meta{font-size:13px;margin-top:4px;color:var(--ink)}
+.meta .k{color:var(--muted)}
+.note{font-size:13px;color:var(--muted);font-style:italic;margin-top:2px}
+.tags{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}
+.tag{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:4px;padding:0 5px}
+.right{text-align:right;min-width:90px}
+.cd{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:14px;padding:2px 8px;border-radius:6px;display:inline-block}
+.cd.hot{background:var(--hot-soft);color:var(--hot)} .cd.warm{background:var(--warm-soft);color:var(--warm)} .cd.cool{background:var(--chip)}
+.status{display:block;margin-top:6px;font-size:12px;color:var(--muted)}
+.status.planning{color:var(--warm);font-weight:600} .status.submitted{color:var(--accent);font-weight:600}
+.empty,.err{padding:30px;text-align:center;color:var(--muted)}
+.err{color:var(--hot)}
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-left:auto}
+.seg button{font:inherit;font-size:13px;border:0;background:var(--panel);color:var(--muted);padding:5px 12px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--bg)}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin-top:14px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:900px}
+th{position:sticky;top:0;background:var(--panel);text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:10px 10px;border-bottom:2px solid var(--ink);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tr.est td{color:var(--est)} tr.est td.acr a{color:var(--est)}
+tr.skip{opacity:.45}
+tr.planning td.acr{box-shadow:inset 3px 0 0 var(--warm)} tr.submitted td.acr{box-shadow:inset 3px 0 0 var(--accent)}
+td.acr{white-space:nowrap;position:sticky;left:0;background:var(--panel)}
+td.acr a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--line)}
+td.acr .badge{margin-left:4px}
+td.d{white-space:nowrap;font-variant-numeric:tabular-nums}
+td.d small{display:block;color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
+td.d .cd{font-size:11px;padding:0 5px;margin-top:2px}
+td.d.past{color:var(--muted);text-decoration:line-through}
+td.nm{min-width:200px;max-width:280px} td.nm .lbl{display:block;font-size:11px;color:var(--muted)}
+.dash{color:var(--line)}
+footer{margin-top:40px;font-size:12px;color:var(--muted)}
+@media (max-width:560px){
+  h1{font-size:32px}
+  .row{grid-template-columns:58px 1fr;gap:10px}
+  .right{grid-column:2;text-align:left;display:flex;gap:10px;align-items:center}
+  .status{margin:0}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>CFP Tracker</h1>
+      <div class="sub">Times shown in your local time · <span id="tzname" class="mono"></span></div>
+    </div>
+    <div class="group">
+      <button class="btn" id="ics" title="Download upcoming deadlines as a calendar file">Export to calendar</button>
+      <button class="btn" id="theme" title="Toggle dark mode">◐ Theme</button>
+    </div>
+  </header>
+
+  <section class="next" id="next"></section>
+
+  <section class="controls">
+    <input type="search" id="q" placeholder="Search name, place, note…">
+    <div class="group" id="tagChips"><span>Topic</span></div>
+    <div class="group" id="ccfChips"><span>CCF</span></div>
+    <div class="group" id="statusChips"><span>Status</span></div>
+    <label class="tog"><input type="checkbox" id="showEst" checked> show estimated</label>
+    <div class="seg" id="view"><button data-v="table">Table</button><button data-v="cards">Cards</button></div>
+  </section>
+
+  <main id="list"><div class="empty">Loading…</div></main>
+
+  <footer>Edit <span class="mono">conferences.yaml</span> to add or update venues. Rows marked <span class="badge est">est.</span> are guesses: last known deadline + 1 year.</footer>
+</div>
+
+<script>
+const DAY = 864e5;
+const now = Date.now();
+const state = { q:"", tags:new Set(), ccf:new Set(), status:new Set(), showEst:true, view:"table" };
+try{ const v=localStorage.getItem("cfp-view"); if(v) state.view=v; }catch(e){}
+let items = [];
+
+// ---------- theme ----------
+(function(){
+  let t=null; try{ t=localStorage.getItem("cfp-theme"); }catch(e){}
+  if(t) document.documentElement.dataset.theme=t;
+  document.getElementById("theme").onclick=()=>{
+    const dark = document.documentElement.dataset.theme
+      ? document.documentElement.dataset.theme==="dark"
+      : matchMedia("(prefers-color-scheme: dark)").matches;
+    const nt = dark ? "light" : "dark";
+    document.documentElement.dataset.theme = nt;
+    try{ localStorage.setItem("cfp-theme", nt); }catch(e){}
+  };
+})();
+document.getElementById("tzname").textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+// ---------- time parsing ----------
+function tzOffsetHours(tz){
+  if(!tz) return -12;
+  tz = String(tz).trim().toUpperCase();
+  if(tz==="AOE") return -12;
+  if(tz==="UTC"||tz==="GMT"||tz==="Z") return 0;
+  const m = tz.match(/^(?:UTC|GMT)\s*([+-])\s*(\d{1,2})(?::?(\d{2}))?$/);
+  if(m) return (m[1]==="-"?-1:1)*(+m[2] + (m[3]? +m[3]/60 : 0));
+  return -12;
+}
+function parseDeadline(s, tz){
+  if(s==null) return null;
+  if(s instanceof Date) s = s.toISOString().slice(0,16).replace("T"," ");
+  s = String(s).trim();
+  if(!s || /tbd/i.test(s)) return null;
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if(!m) return null;
+  const [_,Y,M,D,h="23",mi="59",se="59"] = m;
+  return Date.UTC(+Y, +M-1, +D, +h, +mi, +se) - tzOffsetHours(tz)*3600e3;
+}
+function shiftDay(v, n){
+  if(v==null||v==="") return "";
+  if(v instanceof Date) v=v.toISOString();
+  const m=String(v).match(/^(\d{4})-(\d{2})-(\d{2})/); if(!m) return String(v);
+  return `${+m[1]+n}-${m[2]}-${m[3]}`;
+}
+function addYears(t, n){ const d=new Date(t); d.setUTCFullYear(d.getUTCFullYear()+n); return d.getTime(); }
+
+// ---------- build model ----------
+function build(raw){
+  const out=[];
+  for(const c of raw||[]){
+    if(!c || !c.name) continue;
+    const cycles=[];
+    for(const dl of (c.deadlines||[])){
+      const paper = parseDeadline(dl.paper, dl.tz);
+      if(paper==null) continue;
+      let abs = parseDeadline(dl.abstract, dl.tz);
+      let p = paper, est=false, shift=0;
+      while(p < now){ shift++; p = addYears(paper, shift); est=true; }
+      if(abs!=null && shift) abs = addYears(abs, shift);
+      cycles.push({label:dl.label||"", paper:p, abstract:abs, est, shift, tz:dl.tz||"AoE", rawPaper:String(dl.paper).slice(0,16), rawAbs:dl.abstract?String(dl.abstract).slice(0,16):"",
+        notification: shiftDay(dl.notification, shift), camera: shiftDay(dl.camera_ready, shift)});
+    }
+    if(!cycles.length) continue;
+    cycles.sort((a,b)=>(a.est-b.est)||(a.paper-b.paper));
+    // pick the earliest real one; if none, earliest estimated
+    const real = cycles.filter(x=>!x.est).sort((a,b)=>a.paper-b.paper);
+    const estd = cycles.filter(x=>x.est).sort((a,b)=>a.paper-b.paper);
+    const next = real[0] || estd[0];
+    // the date to sort by is the next action: abstract if it's still ahead
+    const action = (next.abstract && next.abstract>now) ? next.abstract : next.paper;
+    out.push({ ...c,
+      tags:(c.tags||[]).map(String),
+      ccf: c.ccf ? String(c.ccf).toUpperCase() : "",
+      status: (c.status||"watching").toLowerCase(),
+      next, action, others: cycles.filter(x=>x!==next && !x.est) });
+  }
+  return out.sort((a,b)=>a.action-b.action);
+}
+
+// ---------- formatting ----------
+const fmtDate = t => new Date(t).toLocaleString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"});
+const fmtShort = t => new Date(t).toLocaleDateString(undefined,{day:"numeric",month:"short"});
+const MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function fmtDay(v){ const m=String(v||"").match(/^(\d{4})-(\d{2})-(\d{2})/); return m?`${+m[3]} ${MON[+m[2]-1]} ${m[1]}`:esc(v||""); }
+function daysLeft(t){ return Math.ceil((t-now)/DAY); }
+function heat(d){ return d<=7?"hot":d<=30?"warm":"cool"; }
+function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function cdText(t){
+  const ms=t-now; const d=Math.floor(ms/DAY); const h=Math.floor((ms%DAY)/36e5);
+  return d>=1 ? `${d}d ${h}h` : `${h}h ${Math.floor((ms%36e5)/6e4)}m`;
+}
+
+// ---------- filters ----------
+function makeChips(id, values, set, labelFn=v=>v){
+  const box=document.getElementById(id);
+  for(const v of values){
+    const b=document.createElement("button");
+    b.className="chip"; b.textContent=labelFn(v);
+    b.onclick=()=>{ set.has(v)?set.delete(v):set.add(v); b.classList.toggle("on"); render(); };
+    box.appendChild(b);
+  }
+}
+function visible(c){
+  if(!state.showEst && c.next.est) return false;
+  if(state.tags.size && !c.tags.some(t=>state.tags.has(t))) return false;
+  if(state.ccf.size && !state.ccf.has(c.ccf||"none")) return false;
+  if(state.status.size && !state.status.has(c.status)) return false;
+  if(state.q){
+    const hay=[c.name,c.full,c.where,c.note,c.tags.join(" "),c.next.label].join(" ").toLowerCase();
+    if(!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+
+// ---------- render ----------
+function render(){
+  const list=document.getElementById("list");
+  const vis=items.filter(visible);
+
+  // next-up cards: real deadlines only, not skipped
+  const up = vis.filter(c=>!c.next.est && c.status!=="skip").slice(0,4);
+  document.getElementById("next").innerHTML = up.map(c=>{
+    const d=daysLeft(c.action); const isAbs = c.action!==c.next.paper;
+    return `<div class="card ${heat(d)}"><div class="days">${d}<small>day${d===1?"":"s"}</small></div>
+      <div class="nm">${esc(c.name)} ${c.edition?`<span class="full">'${String(c.edition).slice(-2)}</span>`:""}</div>
+      <div class="dl">${isAbs?"Abstract":"Paper"} · ${fmtShort(c.action)}</div></div>`;
+  }).join("");
+
+  if(!vis.length){ list.innerHTML=`<div class="empty">Nothing matches these filters.</div>`; return; }
+  if(state.view==="table"){ list.innerHTML=renderTable(vis); return; }
+  let html="", lastMonth="";
+  for(const c of vis){
+    const a=new Date(c.action);
+    const mk=a.toLocaleDateString(undefined,{month:"long",year:"numeric"});
+    if(mk!==lastMonth){ html+=`<div class="month">${mk}</div>`; lastMonth=mk; }
+    const n=c.next, d=daysLeft(c.action);
+    const abs = n.abstract ? `<div class="meta"><span class="k">Abstract</span> ${fmtDate(n.abstract)}${n.est?"":` <span class="k mono">= ${esc(n.rawAbs)} ${esc(n.tz)}</span>`}</div>` : "";
+    const others = c.others.length ? `<div class="meta"><span class="k">Other cycles</span> ${c.others.map(o=>`${esc(o.label||"cycle")} ${fmtShort(o.paper)}`).join(" · ")}</div>` : "";
+    html+=`<div class="row ${n.est?"est":""} ${c.status==="skip"?"skip":""}">
+      <div class="date"><div class="d">${a.getDate()}</div><div class="m">${a.toLocaleDateString(undefined,{month:"short"})}</div><div class="y">${a.getFullYear()}</div></div>
+      <div>
+        <div class="title">
+          ${c.link?`<a href="${esc(c.link)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:`<strong>${esc(c.name)}</strong>`}
+          ${c.edition?`<span class="full">${esc(n.shift&&!isNaN(c.edition)?Number(c.edition)+n.shift:c.edition)}</span>`:""}
+          ${c.ccf?`<span class="badge ccf${esc(c.ccf)}">CCF ${esc(c.ccf)}</span>`:""}
+          ${n.est?`<span class="badge est">est.</span>`:""}
+          ${n.label?`<span class="badge">${esc(n.label)}</span>`:""}
+        </div>
+        ${c.full?`<div class="full">${esc(c.full)}</div>`:""}
+        ${abs}
+        <div class="meta"><span class="k">Paper</span> ${fmtDate(n.paper)} ${n.est?`<span class="k">(estimated)</span>`:`<span class="k mono">= ${esc(n.rawPaper)} ${esc(n.tz)}</span>`}</div>
+        ${others}
+        ${(c.when||c.where)&&!n.est?`<div class="meta"><span class="k">Conference</span> ${esc(c.when||"")}${c.when&&c.where?" · ":""}${esc(c.where||"")}</div>`:""}
+        ${c.note?`<div class="note">${esc(c.note)}</div>`:""}
+        <div class="tags">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
+      </div>
+      <div class="right"><span class="cd ${n.est?"cool":heat(d)}">${n.est?"~"+Math.round(d/30)+" mo":cdText(c.action)}</span><span class="status ${esc(c.status)}">${esc(c.status)}</span></div>
+    </div>`;
+  }
+  list.innerHTML=html;
+}
+
+// ---------- table view ----------
+function deadlineCell(t, raw, tz, est, isNext, shift){
+  if(t==null) return `<td class="d"><span class="dash">—</span></td>`;
+  const past = t<now;
+  const d=daysLeft(t);
+  const shown = est ? shiftDay(raw, shift)+String(raw).slice(10) : raw;
+  return `<td class="d${past?" past":""}" title="Your time: ${esc(fmtDate(t))}">${fmtDay(shown)}
+    <small>${est?"estimated":esc(shown.slice(11,16)+" "+tz)}</small>
+    ${!past&&!est&&isNext?`<span class="cd ${heat(d)}">${d}d</span>`:""}</td>`;
+}
+function dayCell(v){ return `<td class="d">${v?fmtDay(v):'<span class="dash">—</span>'}</td>`; }
+function renderTable(vis){
+  const rows=[];
+  for(const c of vis){
+    rows.push({c, n:c.next, key:c.action, isNext:true});
+    for(const o of c.others) rows.push({c, n:o, key:(o.abstract&&o.abstract>now)?o.abstract:o.paper, isNext:false});
+  }
+  rows.sort((a,b)=>a.key-b.key);
+  const body=rows.map(({c,n,isNext})=>{
+    const ed = n.shift&&!isNaN(c.edition)?Number(c.edition)+n.shift:c.edition;
+    return `<tr class="${n.est?"est":""} ${esc(c.status)}">
+      <td class="acr">${c.link?`<a href="${esc(c.link)}" target="_blank" rel="noopener">${esc(c.name)}</a>`:esc(c.name)} <span class="full">${esc(ed||"")}</span>${c.ccf?`<span class="badge ccf${esc(c.ccf)}">${esc(c.ccf)}</span>`:""}${n.est?`<span class="badge est">est.</span>`:""}</td>
+      <td class="nm">${esc(c.full||"")}${n.label?`<span class="lbl">${esc(n.label)}</span>`:""}</td>
+      <td>${n.est?'<span class="dash">—</span>':esc(c.where||"")}</td>
+      ${deadlineCell(n.abstract, n.rawAbs, n.tz, n.est, isNext && n.abstract>now, n.shift)}
+      ${deadlineCell(n.paper, n.rawPaper, n.tz, n.est, isNext && !(n.abstract>now), n.shift)}
+      ${dayCell(n.notification)}
+      ${dayCell(n.camera)}
+      <td class="d">${n.est?'<span class="dash">—</span>':esc(c.when||"")}</td>
+    </tr>`;}).join("");
+  return `<div class="tablewrap"><table>
+    <thead><tr><th>Acronym</th><th>Conference name</th><th>Venue</th><th>Abstract</th><th>Paper</th><th>Notification</th><th>Camera-ready</th><th>Conference date</th></tr></thead>
+    <tbody>${body}</tbody></table></div>`;
+}
+
+// ---------- calendar export ----------
+document.getElementById("ics").onclick=()=>{
+  const z=t=>new Date(t).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+  const L=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//cfp-tracker//EN"];
+  for(const c of items.filter(visible)){
+    if(c.next.est || c.status==="skip") continue;
+    const ev=(t,kind)=>L.push("BEGIN:VEVENT",`UID:${c.name.replace(/\W/g,"")}-${kind}-${t}@cfp`,`DTSTAMP:${z(now)}`,
+      `DTSTART:${z(t)}`,`DTEND:${z(t)}`,`SUMMARY:${c.name} ${c.edition||""} ${kind} deadline`,
+      c.link?`URL:${c.link}`:"", "BEGIN:VALARM","TRIGGER:-P7D","ACTION:DISPLAY",`DESCRIPTION:${c.name} in 7 days`,"END:VALARM","END:VEVENT");
+    if(c.next.abstract) ev(c.next.abstract,"abstract");
+    ev(c.next.paper,"paper");
+  }
+  L.push("END:VCALENDAR");
+  const blob=new Blob([L.filter(Boolean).join("\r\n")],{type:"text/calendar"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="cfp-deadlines.ics"; a.click();
+};
+
+// ---------- load ----------
+fetch("conferences.yaml",{cache:"no-store"})
+  .then(r=>{ if(!r.ok) throw new Error("Couldn't load conferences.yaml ("+r.status+")"); return r.text(); })
+  .then(txt=>{
+    items = build(jsyaml.load(txt));
+    const tags=[...new Set(items.flatMap(c=>c.tags))].sort();
+    makeChips("tagChips", tags, state.tags);
+    const ranks=["A","B","C"].filter(r=>items.some(c=>c.ccf===r)); if(items.some(c=>!c.ccf)) ranks.push("none");
+    makeChips("ccfChips", ranks, state.ccf, v=>v==="none"?"unranked":v);
+    makeChips("statusChips", [...new Set(items.map(c=>c.status))], state.status);
+    document.getElementById("q").oninput=e=>{ state.q=e.target.value.trim().toLowerCase(); render(); };
+    document.getElementById("showEst").onchange=e=>{ state.showEst=e.target.checked; render(); };
+    const seg=document.getElementById("view");
+    const syncSeg=()=>seg.querySelectorAll("button").forEach(b=>b.classList.toggle("on", b.dataset.v===state.view));
+    seg.onclick=e=>{ const v=e.target.dataset.v; if(!v) return; state.view=v; try{localStorage.setItem("cfp-view",v);}catch(_){} syncSeg(); render(); };
+    syncSeg();
+    render();
+  })
+  .catch(e=>{ document.getElementById("list").innerHTML=`<div class="err">${esc(e.message)}<br><small>If you opened the file directly from your disk, the browser blocks this; view it on GitHub Pages instead. If it's a YAML error, check indentation near the line mentioned.</small></div>`; });
+</script>
+</body>
+</html>

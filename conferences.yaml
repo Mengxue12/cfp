@@ -1,0 +1,652 @@
+# ─────────────────────────────────────────────────────────────
+#  My CFP list. Edit this file on github.com (pencil icon) → Commit.
+#  The page refreshes itself; no build step.
+#
+#  Fields
+#    name      short name shown on the card            (required)
+#    full      full conference name
+#    edition   year of the edition the deadlines are for
+#    tags      any of: edge, systems, mlsys, arch, perf, hpc, network, workshop
+#              (you can invent new tags; filters appear automatically)
+#    ccf       CCF rank: A / B / C, or leave empty
+#    link      CFP / conference page
+#    when      conference dates (free text)
+#    where     location (free text)
+#    status    watching | planning | submitted | skip
+#    note      anything you like
+#    deadlines list of cycles. Each cycle:
+#        label     e.g. "Spring", "Round 1" (optional)
+#        abstract  "YYYY-MM-DD HH:MM" (optional)
+#        paper     "YYYY-MM-DD HH:MM" (required)
+#        notification  "YYYY-MM-DD" (optional)
+#        camera_ready  "YYYY-MM-DD" (optional)
+#        tz        AoE (default) | UTC | UTC+2 | UTC-7 ...
+#
+#  Always put dates in quotes.
+#  If every deadline of a venue has passed, the page guesses next year's
+#  date (same day +1 year) and marks it "est." until you update it.
+# ─────────────────────────────────────────────────────────────
+
+# ── Edge / fog / mobile ───────────────────────────────────
+
+- name: SEC
+  full: ACM/IEEE Symposium on Edge Computing
+  edition: 2026
+  tags: [edge]
+  ccf: C
+  link: https://acm-ieee-sec.org/2026/
+  when: Oct 13–16, 2026
+  where: Santa Clara, CA, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-05-08 23:59"
+      paper: "2026-05-08 23:59"
+
+- name: ICFEC
+  full: IEEE Int'l Conference on Fog and Edge Computing (co-located with CCGrid)
+  edition: 2026
+  tags: [edge]
+  ccf:
+  link: https://icfec2026.hanyang.ac.kr/
+  when: May 2026
+  where: Sydney, Australia
+  status: watching
+  note: 2027 edition not announced yet; usually a January deadline.
+  deadlines:
+    - paper: "2026-01-09 23:59"
+      notification: "2026-02-16"
+
+- name: EdgeSys
+  full: Workshop on Edge Systems, Analytics and Networking
+  edition: 2026
+  tags: [edge, workshop]
+  ccf:
+  link: https://edge-sys.github.io/2026
+  when: Jun 25, 2026 (with MobiSys)
+  where: Cambridge, UK
+  status: watching
+  deadlines:
+    - paper: "2026-03-15 23:59"
+
+- name: MobiSys
+  full: ACM Int'l Conference on Mobile Systems, Applications, and Services
+  edition: 2027
+  tags: [edge, systems]
+  ccf: B
+  link: https://www.sigmobile.org/mobisys/2027/
+  when: Jun 21–25, 2027
+  where: Ho Chi Minh City, Vietnam
+  status: watching
+  deadlines:
+    - abstract: "2026-11-27 23:59"
+      paper: "2026-12-04 23:59"
+      notification: "2027-03-06"
+      camera_ready: "2027-04-14"
+
+- name: SenSys
+  full: ACM Conference on Embedded Networked Sensor Systems
+  edition: 2027
+  tags: [edge]
+  ccf: B
+  link: https://sensys.acm.org/2027/
+  when: May 17–20, 2027
+  where: Boulder, CO, USA
+  status: watching
+  deadlines:
+    - label: 1st deadline
+      abstract: "2026-05-29 23:59"
+      paper: "2026-06-05 23:59"
+      notification: "2026-08-31"
+    - label: 2nd deadline
+      abstract: "2026-10-29 23:59"
+      paper: "2026-11-05 23:59"
+      notification: "2027-01-28"
+
+- name: MobiCom
+  full: ACM Int'l Conference on Mobile Computing and Networking
+  edition: 2027
+  tags: [edge, network]
+  ccf: A
+  link: https://www.sigmobile.org/mobicom/2027/
+  when: Oct 18–22, 2027
+  where: TBD
+  status: watching
+  deadlines:
+    - label: Summer
+      abstract: "2026-08-26 23:59"
+      paper: "2026-09-02 23:59"
+      notification: "2026-11-19"
+    - label: Winter (2026 edition's date)
+      paper: "2026-03-13 23:59"
+
+- name: PerCom
+  full: IEEE Int'l Conference on Pervasive Computing and Communications
+  edition: 2027
+  tags: [edge]
+  ccf: B
+  link: https://percom.org/
+  when: Mar 8–12, 2027
+  where: Goa, India
+  status: watching
+  deadlines:
+    - label: Extended deadlines
+      abstract: "2026-09-11 23:59"
+      paper: "2026-09-18 23:59"
+      notification: "2026-12-18"
+
+- name: IEEE CLOUD
+  full: IEEE Int'l Conference on Cloud Computing
+  edition: 2026
+  tags: [edge, systems]
+  ccf: C
+  link: https://services.conferences.computer.org/2026/cloud/
+  when: Jul 13–17, 2026
+  where: Sydney, Australia
+  status: watching
+  deadlines:
+    - paper: "2026-03-22 23:00"
+
+- name: CCGrid
+  full: IEEE/ACM Int'l Symposium on Cluster, Cloud and Internet Computing
+  edition: 2027
+  tags: [edge, hpc]
+  ccf: C
+  link: https://hpcclab.org/ccgrid27/
+  when: May 24–27, 2027
+  where: Dallas–Fort Worth, TX, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-11-24 23:59"
+      paper: "2026-12-01 23:59"
+      notification: "2027-02-01"
+      camera_ready: "2027-03-16"
+
+- name: ICDCS
+  full: IEEE Int'l Conference on Distributed Computing Systems
+  edition: 2026
+  tags: [systems, edge]
+  ccf: B
+  link: https://icdcs2027.icdcs.org/
+  when: Jul 5–8, 2027 (next edition)
+  where: Melbourne, Australia
+  status: watching
+  note: 2027 deadline still TBD; date shown is from 2026.
+  deadlines:
+    - paper: "2026-01-21 23:59"
+
+# ── Networking ────────────────────────────────────────────
+
+- name: INFOCOM
+  full: IEEE Int'l Conference on Computer Communications
+  edition: 2027
+  tags: [network, edge]
+  ccf: A
+  link: https://infocom2027.ieee-infocom.org/
+  when: May 24–27, 2027
+  where: Honolulu, HI, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-07-24 23:59"
+      paper: "2026-07-31 23:59"
+
+- name: CoNEXT
+  full: ACM Int'l Conference on emerging Networking EXperiments and Technologies
+  edition: 2027
+  tags: [network]
+  ccf: B
+  link: https://conferences.sigcomm.org/co-next/2027/
+  when: Dec 6–9, 2027 (tbc)
+  where: Rio de Janeiro, Brazil
+  status: watching
+  deadlines:
+    - label: December Cycle
+      abstract: "2026-11-27 23:59"
+      paper: "2026-12-04 23:59"
+    - label: June Cycle
+      abstract: "2027-05-28 23:59"
+      paper: "2027-06-04 23:59"
+
+- name: IWQoS
+  full: IEEE/ACM Int'l Symposium on Quality of Service
+  edition: 2026
+  tags: [network]
+  ccf: B
+  link: https://iwqos2026.ieee-iwqos.org/
+  when: Jun 30 – Jul 2, 2026
+  where: Istanbul, Türkiye
+  status: watching
+  deadlines:
+    - abstract: "2026-02-16 23:59"
+      paper: "2026-02-23 23:59"
+
+- name: NSDI
+  full: USENIX Symposium on Networked Systems Design and Implementation
+  edition: 2027
+  tags: [systems, network]
+  ccf: A
+  link: https://www.usenix.org/conferences/byname/178
+  when: Spring 2027
+  where: USA
+  status: watching
+  note: 2028 deadlines TBD.
+  deadlines:
+    - label: Spring
+      paper: "2026-04-23 23:59"
+      tz: UTC-7
+    - label: Fall
+      paper: "2026-09-17 23:59"
+      tz: UTC-7
+
+# ── Systems ───────────────────────────────────────────────
+
+- name: OSDI
+  full: USENIX Symposium on Operating Systems Design and Implementation
+  edition: 2027
+  tags: [systems]
+  ccf: A
+  link: https://www.usenix.org/conference/osdi27
+  when: Jul 7–9, 2027
+  where: Baltimore, MD, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-12-01 22:59"
+      paper: "2026-12-08 22:59"
+      notification: "2027-03-16"
+      camera_ready: "2027-06-03"
+      tz: UTC
+
+- name: SOSP
+  full: ACM Symposium on Operating Systems Principles
+  edition: 2026
+  tags: [systems]
+  ccf: A
+  link: https://sigops.org/s/conferences/sosp/2026/index.html
+  when: Sep 30 – Oct 2, 2026
+  where: Prague, Czechia
+  status: watching
+  deadlines:
+    - abstract: "2026-03-26 23:59"
+      paper: "2026-04-01 23:59"
+
+- name: EuroSys
+  full: European Conference on Computer Systems
+  edition: 2027
+  tags: [systems]
+  ccf: A
+  link: https://2027.eurosys.org/
+  when: Apr 19–23, 2027
+  where: Rabat, Morocco
+  status: watching
+  deadlines:
+    - label: Spring
+      abstract: "2026-05-07 23:59"
+      paper: "2026-05-14 23:59"
+    - label: Fall
+      abstract: "2026-09-17 23:59"
+      paper: "2026-09-24 23:59"
+
+- name: ATC
+  full: SIGOPS Annual Technical Conference
+  edition: 2026
+  tags: [systems]
+  ccf: A
+  link: https://sigops.org/s/conferences/atc/2026/index.html
+  when: Nov 16–18, 2026
+  where: Hong Kong, China
+  status: watching
+  deadlines:
+    - paper: "2026-06-11 11:59"
+      tz: UTC
+
+- name: SoCC
+  full: ACM Symposium on Cloud Computing
+  edition: 2026
+  tags: [systems, edge]
+  ccf: B
+  link: https://acmsocc.org/2026/
+  when: Nov 18–20, 2026
+  where: Singapore
+  status: watching
+  deadlines:
+    - label: Round 1
+      abstract: "2026-02-06 23:59"
+      paper: "2026-02-13 23:59"
+    - label: Round 2
+      abstract: "2026-07-07 23:59"
+      paper: "2026-07-14 23:59"
+
+- name: Middleware
+  full: ACM/IFIP Int'l Middleware Conference
+  edition: 2026
+  tags: [systems]
+  ccf: B
+  link: https://middleware-conf.github.io/2026/
+  when: Dec 14–18, 2026
+  where: Tarragona, Spain
+  status: watching
+  deadlines:
+    - label: Round 1
+      abstract: "2025-12-09 23:59"
+      paper: "2025-12-12 23:59"
+    - label: Round 2
+      abstract: "2026-05-29 23:59"
+      paper: "2026-06-05 23:59"
+
+# ── ML systems ────────────────────────────────────────────
+
+- name: MLSys
+  full: Conference on Machine Learning and Systems
+  edition: 2027
+  tags: [mlsys]
+  ccf:
+  link: https://mlsys.org/
+  when: Jun 21–25, 2027
+  where: Bellevue, WA, USA
+  status: watching
+  deadlines:
+    - paper: "2026-10-30 21:00"
+      notification: "2027-02-28"
+      tz: UTC
+
+- name: EuroMLSys
+  full: Workshop on Machine Learning and Systems (with EuroSys)
+  edition: 2026
+  tags: [mlsys, workshop]
+  ccf:
+  link: https://euromlsys.eu/
+  when: Apr 27, 2026
+  where: Edinburgh, UK
+  status: watching
+  deadlines:
+    - paper: "2026-02-24 23:59"
+
+- name: ASPLOS
+  full: Architectural Support for Programming Languages and Operating Systems
+  edition: 2027
+  tags: [arch, systems, mlsys]
+  ccf: A
+  link: https://www.asplos-conference.org/asplos2027/cfp/
+  when: Apr 11–15, 2027
+  where: Crete, Greece
+  status: watching
+  deadlines:
+    - label: April Cycle
+      paper: "2026-04-15 23:59"
+    - label: September Cycle
+      paper: "2026-09-09 23:59"
+
+# ── Architecture / embedded ───────────────────────────────
+
+- name: ISCA
+  full: Int'l Symposium on Computer Architecture
+  edition: 2027
+  tags: [arch]
+  ccf: A
+  link: https://iscaconf.org/isca2027/
+  when: Jun 5–9, 2027
+  where: Atlanta, GA, USA
+  status: watching
+  deadlines:
+    - label: Main Track
+      abstract: "2026-11-09 23:59"
+      paper: "2026-11-16 23:59"
+      notification: "2027-03-26"
+    - label: Industry Track
+      abstract: "2026-12-06 23:59"
+      paper: "2026-12-13 23:59"
+      notification: "2027-03-26"
+
+- name: MICRO
+  full: IEEE/ACM Int'l Symposium on Microarchitecture
+  edition: 2026
+  tags: [arch]
+  ccf: A
+  link: https://microarch.org/micro59/
+  when: Nov 2–4, 2026
+  where: Athens, Greece
+  status: watching
+  deadlines:
+    - abstract: "2026-03-31 23:59"
+      paper: "2026-04-07 23:59"
+      tz: UTC-4
+
+- name: HPCA
+  full: IEEE Int'l Symposium on High-Performance Computer Architecture
+  edition: 2027
+  tags: [arch]
+  ccf: A
+  link: https://conf.researchr.org/home/hpca-2027
+  when: Mar 20–24, 2027
+  where: Salt Lake City, UT, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-07-24 23:59"
+      paper: "2026-07-31 23:59"
+      notification: "2026-11-06"
+
+- name: DAC
+  full: Design Automation Conference
+  edition: 2027
+  tags: [arch]
+  ccf: A
+  link: https://dac.com/2027/authors/call-for-contributions
+  when: Jul 11–14, 2027
+  where: San Jose, CA, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-11-11 17:00"
+      paper: "2026-11-18 17:00"
+      notification: "2027-03-09"
+      tz: UTC-8
+
+- name: DATE
+  full: Design, Automation and Test in Europe
+  edition: 2027
+  tags: [arch]
+  ccf: B
+  link: https://www.date-conference.com/date-2027-call-papers
+  when: Mar 22–24, 2027
+  where: Dresden, Germany
+  status: watching
+  deadlines:
+    - abstract: "2026-09-13 23:59"
+      paper: "2026-09-20 23:59"
+      notification: "2026-11-23"
+
+- name: CODES+ISSS
+  full: Hardware/Software Codesign and System Synthesis (ESWEEK)
+  edition: 2026
+  tags: [arch, edge]
+  ccf: B
+  link: https://esweek.org/codes_isss_cfp/
+  when: Oct 4–9, 2026
+  where: Barcelona, Spain
+  status: watching
+  deadlines:
+    - abstract: "2026-03-23 23:59"
+      paper: "2026-03-30 23:59"
+
+- name: IISWC
+  full: IEEE Int'l Symposium on Workload Characterization
+  edition: 2026
+  tags: [perf, arch]
+  ccf:
+  link: https://iiswc.org/iiswc2026/
+  when: Sep 28–29, 2026
+  where: Boulder, CO, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-05-14 23:59"
+      paper: "2026-05-21 23:59"
+
+- name: ISPASS
+  full: IEEE Int'l Symposium on Performance Analysis of Systems and Software
+  edition: 2026
+  tags: [perf, arch]
+  ccf: C
+  link: https://ispass.org/ispass2026/
+  when: Apr 27–28, 2026
+  where: Seoul, South Korea
+  status: watching
+  note: 2027 call not out yet; usually mid-December.
+  deadlines:
+    - abstract: "2025-12-08 17:00"
+      paper: "2025-12-15 17:00"
+      tz: UTC-5
+
+# ── Performance evaluation ────────────────────────────────
+
+- name: ICPE
+  full: ACM/SPEC Int'l Conference on Performance Engineering
+  edition: 2027
+  tags: [perf]
+  ccf:
+  link: https://icpe2027.spec.org/
+  when: 2027
+  where: Gothenburg, Sweden
+  status: watching
+  deadlines:
+    - label: Research track
+      abstract: "2026-11-09 23:59"
+      paper: "2026-11-16 23:59"
+      notification: "2027-01-25"
+      camera_ready: "2027-03-12"
+
+- name: SIGMETRICS
+  full: ACM SIGMETRICS / IFIP Performance
+  edition: 2027
+  tags: [perf]
+  ccf: B
+  link: https://www.sigmetrics.org/sigmetrics2027/
+  when: Jun 7–11, 2027
+  where: Atlanta, GA, USA
+  status: watching
+  deadlines:
+    - label: summer round
+      abstract: "2026-07-03 23:59"
+      paper: "2026-07-10 23:59"
+    - label: fall round
+      abstract: "2026-10-02 23:59"
+      paper: "2026-10-09 23:59"
+    - label: winter round
+      abstract: "2027-01-04 23:59"
+      paper: "2027-01-11 23:59"
+
+- name: Performance
+  full: IFIP Int'l Symposium on Computer Performance, Modeling, Measurements and Evaluation
+  edition: 2026
+  tags: [perf]
+  ccf: B
+  link: https://performance2026.github.io/call/
+  when: Nov 3–5, 2026
+  where: Ghent, Belgium
+  status: watching
+  deadlines:
+    - abstract: "2026-05-15 23:59"
+      paper: "2026-05-22 23:59"
+
+- name: MASCOTS
+  full: Modeling, Analysis, and Simulation of Computer and Telecommunication Systems
+  edition: 2026
+  tags: [perf]
+  ccf:
+  link: https://mascots26.iitis.pl/
+  when: Oct 20–22, 2026
+  where: Genova, Italy
+  status: watching
+  deadlines:
+    - paper: "2026-05-17 23:59"
+
+# ── HPC / parallel ────────────────────────────────────────
+
+- name: SC
+  full: Int'l Conference for High Performance Computing, Networking, Storage and Analysis
+  edition: 2026
+  tags: [hpc]
+  ccf: A
+  link: https://sc26.supercomputing.org/
+  when: Nov 16–20, 2026
+  where: Chicago, IL, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-04-01 23:59"
+      paper: "2026-04-08 23:59"
+
+- name: HPDC
+  full: ACM Int'l Symposium on High-Performance Parallel and Distributed Computing
+  edition: 2026
+  tags: [hpc, systems]
+  ccf: A
+  link: https://hpdc.sci.utah.edu/2026/
+  when: Jul 14–16, 2026
+  where: Cleveland, OH, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-01-29 23:59"
+      paper: "2026-02-05 23:59"
+
+- name: PPoPP
+  full: ACM Symposium on Principles and Practice of Parallel Programming
+  edition: 2027
+  tags: [hpc]
+  ccf: A
+  link: https://ppopp27.sigplan.org/
+  when: Mar 20–24, 2027
+  where: Salt Lake City, UT, USA
+  status: watching
+  deadlines:
+    - paper: "2026-08-03 23:59"
+      notification: "2026-10-26"
+
+- name: IPDPS
+  full: IEEE Int'l Parallel and Distributed Processing Symposium
+  edition: 2027
+  tags: [hpc, systems]
+  ccf: B
+  link: https://www.ipdps.org/
+  when: Jun 1–5, 2027
+  where: Seattle, WA, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-10-01 23:59"
+      paper: "2026-10-08 23:59"
+      notification: "2027-02-02"
+
+- name: ICPP
+  full: Int'l Conference on Parallel Processing
+  edition: 2026
+  tags: [hpc]
+  ccf: B
+  link: https://icpp2026.github.io/
+  when: Sep 29 – Oct 1, 2026
+  where: Singapore
+  status: watching
+  deadlines:
+    - abstract: "2026-04-24 23:59"
+      paper: "2026-05-01 23:59"
+
+- name: CLUSTER
+  full: IEEE Int'l Conference on Cluster Computing
+  edition: 2026
+  tags: [hpc]
+  ccf: B
+  link: https://clustercomp.org/2026
+  when: Sep 23–25, 2026
+  where: Alexandria, VA, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-05-07 23:59"
+      paper: "2026-05-07 23:59"
+
+- name: Euro-Par
+  full: Int'l European Conference on Parallel and Distributed Computing
+  edition: 2026
+  tags: [hpc]
+  ccf: B
+  link: https://2026.euro-par.org/
+  when: Aug 26–28, 2026
+  where: Pisa, Italy
+  status: watching
+  deadlines:
+    - abstract: "2026-03-06 23:59"
+      paper: "2026-03-13 23:59"
