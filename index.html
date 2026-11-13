@@ -87,6 +87,7 @@ label.tog{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:cen
 .right{text-align:right;min-width:90px}
 .cd{font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:14px;padding:2px 8px;border-radius:6px;display:inline-block}
 .cd.hot{background:var(--hot-soft);color:var(--hot)} .cd.warm{background:var(--warm-soft);color:var(--warm)} .cd.cool{background:var(--chip)}
+.cdl{display:block;font-size:11px;color:var(--muted);margin-top:4px}
 .status{display:block;margin-top:6px;font-size:12px;color:var(--muted)}
 .status.planning{color:var(--warm);font-weight:600} .status.submitted{color:var(--accent);font-weight:600}
 .empty,.err{padding:30px;text-align:center;color:var(--muted)}
@@ -284,7 +285,8 @@ function render(){
     const d=daysLeft(c.action); const isAbs = c.action!==c.next.paper;
     return `<div class="card ${heat(d)}"><div class="days">${d}<small>day${d===1?"":"s"}</small></div>
       <div class="nm">${esc(c.name)} ${c.edition?`<span class="full">'${String(c.edition).slice(-2)}</span>`:""}</div>
-      <div class="dl">${isAbs?"Abstract":"Paper"} · ${fmtShort(c.action)}</div></div>`;
+      <div class="dl">${isAbs?"Abstract":"Paper"} · ${fmtShort(c.action)}</div>
+      ${isAbs?`<div class="dl">Paper · ${fmtShort(c.next.paper)} · <strong>${daysLeft(c.next.paper)}d</strong></div>`:""}</div>`;
   }).join("");
 
   if(!vis.length){ list.innerHTML=`<div class="empty">Nothing matches these filters.</div>`; return; }
@@ -316,7 +318,9 @@ function render(){
         ${c.note?`<div class="note">${esc(c.note)}</div>`:""}
         <div class="tags">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
       </div>
-      <div class="right"><span class="cd ${n.est?"cool":heat(d)}">${n.est?"~"+Math.round(d/30)+" mo":cdText(c.action)}</span><span class="status ${esc(c.status)}">${esc(c.status)}</span></div>
+      <div class="right">${n.est?`<span class="cd cool">~${Math.round(d/30)} mo</span>`:
+        (n.abstract&&n.abstract>now?`<span class="cdl">abstract</span><span class="cd ${heat(d)}">${cdText(n.abstract)}</span>`:"")+
+        `<span class="cdl">paper</span><span class="cd ${heat(daysLeft(n.paper))}">${cdText(n.paper)}</span>`}<span class="status ${esc(c.status)}">${esc(c.status)}</span></div>
     </div>`;
   }
   list.innerHTML=html;
@@ -330,7 +334,7 @@ function deadlineCell(t, raw, tz, est, isNext, shift){
   const shown = est ? shiftDay(raw, shift)+String(raw).slice(10) : raw;
   return `<td class="d${past?" past":""}" title="Your time: ${esc(fmtDate(t))}">${fmtDay(shown)}
     <small>${est?"estimated":esc(shown.slice(11,16)+" "+tz)}</small>
-    ${!past&&!est&&isNext?`<span class="cd ${heat(d)}">${d}d</span>`:""}</td>`;
+    ${!past&&!est?`<span class="cd ${heat(d)}">${d}d</span>`:""}</td>`;
 }
 function dayCell(v){ return `<td class="d">${v?fmtDay(v):'<span class="dash">—</span>'}</td>`; }
 function renderTable(vis){
