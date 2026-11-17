@@ -76,6 +76,9 @@ label.tog{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:cen
 .ic.other{background:transparent;color:var(--muted);border:1px solid var(--line);font-weight:500}
 .ranks{display:flex;gap:4px;margin-top:4px}
 .ranks .ic,.ranks .badge{font-size:10px;padding:0 5px;line-height:16px;margin:0}
+.accs{display:flex;flex-direction:column;gap:1px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.acc{font-size:12px} .acc .ay{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:11px}
+.acc small{color:var(--muted);font-size:10px} .accn{color:var(--muted);font-size:11px;cursor:help}
 .legend{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted);margin-top:10px}
 .badge.est{background:transparent;border:1px dashed var(--est);color:var(--est)}
 .full{color:var(--muted);font-size:13px}
@@ -96,7 +99,7 @@ label.tog{font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:cen
 .seg button{font:inherit;font-size:13px;border:0;background:var(--panel);color:var(--muted);padding:5px 12px;cursor:pointer}
 .seg button.on{background:var(--ink);color:var(--bg)}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);margin-top:14px}
-table{border-collapse:collapse;width:100%;font-size:13px;min-width:880px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:960px}
 th{position:sticky;top:0;background:var(--panel);text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:10px 10px;border-bottom:2px solid var(--ink);white-space:nowrap}
 td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
 tr:last-child td{border-bottom:0}
@@ -229,6 +232,9 @@ function build(raw){
       tags:(c.tags||[]).map(String),
       ccf: c.ccf ? String(c.ccf).toUpperCase() : "",
       icore: c.icore ? String(c.icore).trim() : "",
+      acc: (c.acceptance||[]).map(a=>({year:+a.year, accepted:a.accepted, submitted:a.submitted,
+             rate: a.rate!=null ? +a.rate : (a.accepted&&a.submitted ? 100*a.accepted/a.submitted : null)}))
+             .filter(a=>a.rate!=null).sort((x,y)=>x.year-y.year).slice(-3),
       status: (c.status||"watching").toLowerCase(),
       next, action, others: cycles.filter(x=>x!==next && !x.est) });
   }
@@ -243,6 +249,15 @@ function fmtDay(v){ const m=String(v||"").match(/^(\d{4})-(\d{2})-(\d{2})/); ret
 function icoreClass(r){ return r==="A*"?"astar":r==="A"?"a":r==="B"?"b":r==="C"?"c":"other"; }
 function icoreKey(r){ return ["A*","A","B","C"].includes(r)?r:(r&&!/unranked/i.test(r)?"other":"none"); }
 function icoreBadge(r, long){ if(!r) return ""; const short = ["A*","A","B","C"].includes(r)?r:r.replace(/^National:\s*/,"National ").replace("Journal Published","Journal"); return `<span class="ic ${icoreClass(r)}" title="ICORE 2026: ${esc(r)}">${long?"ICORE ":""}${esc(short)}</span>`; }
+function accHTML(c, inline){
+  if(!c.acc.length) return inline ? "" : '<span class="dash">—</span>';
+  const parts=c.acc.map(a=>{
+    const tip = a.accepted!=null ? `${a.accepted} / ${a.submitted} papers` : "rate only, counts not published";
+    return `<span class="acc" title="${c.name} ${a.year}: ${esc(tip)}"><span class="ay">'${String(a.year).slice(-2)}</span> ${a.rate.toFixed(0)}%${a.accepted!=null?` <small>${a.accepted}/${a.submitted}</small>`:""}</span>`;
+  });
+  const note = c.acceptance_note ? ` title="${esc(c.acceptance_note)}"` : "";
+  return inline ? parts.join(" · ") : `<div class="accs"${note}>${parts.join("")}${c.acceptance_note?'<span class="accn">*</span>':""}</div>`;
+}
 function daysLeft(t){ return Math.ceil((t-now)/DAY); }
 function heat(d){ return d<=7?"hot":d<=30?"warm":"cool"; }
 function esc(s){ return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
@@ -315,6 +330,7 @@ function render(){
         <div class="meta"><span class="k">Paper</span> ${fmtDate(n.paper)} ${n.est?`<span class="k">(estimated)</span>`:`<span class="k mono">= ${esc(n.rawPaper)} ${esc(n.tz)}</span>`}</div>
         ${others}
         ${(c.when||c.where)&&!n.est?`<div class="meta"><span class="k">Conference</span> ${esc(c.when||"")}${c.when&&c.where?" · ":""}${esc(c.where||"")}</div>`:""}
+        ${c.acc.length?`<div class="meta"><span class="k">Acceptance</span> ${accHTML(c,true)}</div>`:""}
         ${c.note?`<div class="note">${esc(c.note)}</div>`:""}
         <div class="tags">${c.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
       </div>
@@ -355,11 +371,12 @@ function renderTable(vis){
       ${dayCell(n.notification)}
       ${dayCell(n.camera)}
       <td class="d">${n.est?'<span class="dash">—</span>':esc(c.when||"")}</td>
+      <td>${accHTML(c)}</td>
     </tr>`;}).join("");
   return `<div class="tablewrap"><table>
-    <thead><tr><th>Acronym</th><th>Conference name</th><th>Venue</th><th>Abstract</th><th>Paper</th><th>Notification</th><th>Camera-ready</th><th>Conference date</th></tr></thead>
+    <thead><tr><th>Acronym</th><th>Conference name</th><th>Venue</th><th>Abstract</th><th>Paper</th><th>Notification</th><th>Camera-ready</th><th>Conference date</th><th>Acceptance</th></tr></thead>
     <tbody>${body}</tbody></table></div>
-    <div class="legend">ICORE 2026: ${icoreBadge("A*")} flagship ${icoreBadge("A")} excellent ${icoreBadge("B")} good ${icoreBadge("C")} other ranked · CCF: China Computer Federation list</div>`;
+    <div class="legend">ICORE 2026: ${icoreBadge("A*")} flagship ${icoreBadge("A")} excellent ${icoreBadge("B")} good ${icoreBadge("C")} other ranked · CCF: China Computer Federation list · Acceptance: last 3 known editions, accepted/submitted (hover for details; * = see note)</div>`;
 }
 
 // ---------- calendar export ----------

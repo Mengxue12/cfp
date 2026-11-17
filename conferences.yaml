@@ -10,6 +10,8 @@
 #              (you can invent new tags; filters appear automatically)
 #    ccf       CCF rank: A / B / C, or leave empty
 #    icore     ICORE (formerly CORE) rank: A* / A / B / C, or leave empty
+#    acceptance  past editions, e.g. - {year: 2025, accepted: 42, submitted: 233}
+#                (or - {year: 2025, rate: 34.7} when only a % is known)
 #    link      CFP / conference page
 #    when      conference dates (free text)
 #    where     location (free text)
@@ -36,6 +38,10 @@
   tags: [edge]
   ccf: C
   icore: Unranked
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 34, submitted: 122}
+    - {year: 2025, accepted: 28, submitted: 111}
+    - {year: 2026, accepted: 39, submitted: 164}
   link: https://acm-ieee-sec.org/2026/
   when: Oct 13–16, 2026
   where: Santa Clara, CA, USA
@@ -64,6 +70,10 @@
   tags: [edge, systems]
   ccf: B
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 43, submitted: 263}
+    - {year: 2025, accepted: 42, submitted: 233}
+    - {year: 2026, accepted: 68, submitted: 302}
   link: https://www.sigmobile.org/mobisys/2027/
   when: Jun 21–25, 2027
   where: Ho Chi Minh City, Vietnam
@@ -80,6 +90,10 @@
   tags: [edge, network]
   ccf: A
   icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 92, submitted: 377}
+    - {year: 2024, accepted: 103, submitted: 494}
+    - {year: 2025, accepted: 76, submitted: 587}
   link: https://www.sigmobile.org/mobicom/2027/
   when: Oct 18–22, 2027
   where: TBD
@@ -114,6 +128,9 @@
   tags: [edge, hpc]
   ccf: C
   icore: B
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, rate: 20.0}
+  acceptance_note: "Rate from an author homepage; official counts not found."
   link: https://hpcclab.org/ccgrid27/
   when: May 24–27, 2027
   where: Dallas–Fort Worth, TX, USA
@@ -130,6 +147,9 @@
   tags: [systems, edge]
   ccf: B
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, rate: 21.9}
+  acceptance_note: "Rate from an author homepage; official counts not found."
   link: https://icdcs2027.icdcs.org/
   when: Jul 5–8, 2027 (next edition)
   where: Melbourne, Australia
@@ -189,6 +209,10 @@
   tags: [network, edge]
   ccf: A
   icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 256, submitted: 1307}
+    - {year: 2025, accepted: 272, submitted: 1458}
+    - {year: 2026, accepted: 329, submitted: 1740}
   link: https://infocom2027.ieee-infocom.org/
   when: May 24–27, 2027
   where: Honolulu, HI, USA
@@ -203,6 +227,10 @@
   tags: [network]
   ccf: B
   icore: B
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 62, submitted: 264}
+    - {year: 2024, accepted: 81, submitted: 326}
+    - {year: 2025, accepted: 124, submitted: 428}
   link: https://iwqos2026.ieee-iwqos.org/
   when: Jun 30 – Jul 2, 2026
   where: Istanbul, Türkiye
@@ -218,6 +246,10 @@
   tags: [systems, network]
   ccf: A
   icore: "National: USA"
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 112, submitted: 601}
+    - {year: 2025, accepted: 83, submitted: 565}
+    - {year: 2026, accepted: 150, submitted: 659}
   link: https://www.usenix.org/conferences/byname/178
   when: Spring 2027
   where: USA
@@ -239,6 +271,10 @@
   tags: [systems]
   ccf: A
   icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 49, submitted: 272}
+    - {year: 2025, accepted: 53, submitted: 339}
+    - {year: 2026, accepted: 135, submitted: 679}
   link: https://www.usenix.org/conference/osdi27
   when: Jul 7–9, 2027
   where: Baltimore, MD, USA
@@ -256,6 +292,10 @@
   tags: [systems]
   ccf: A
   icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 43, submitted: 232}
+    - {year: 2024, accepted: 43, submitted: 245}
+    - {year: 2025, accepted: 66, submitted: 368}
   link: https://sigops.org/s/conferences/sosp/2026/index.html
   when: Sep 30 – Oct 2, 2026
   where: Prague, Czechia
@@ -270,6 +310,10 @@
   tags: [systems]
   ccf: A
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 71, submitted: 484}
+    - {year: 2025, accepted: 85, submitted: 696}
+    - {year: 2026, accepted: 138, submitted: 723}
   link: https://2027.eurosys.org/
   when: Apr 19–23, 2027
   where: Rabat, Morocco
@@ -289,6 +333,10 @@
   tags: [systems]
   ccf: A
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 62, submitted: 334}
+    - {year: 2024, accepted: 72, submitted: 439}
+    - {year: 2025, accepted: 93, submitted: 578}
   link: https://sigops.org/s/conferences/atc/2026/index.html
   when: Nov 16–18, 2026
   where: Hong Kong, China
@@ -322,6 +370,9 @@
   tags: [systems]
   ccf: B
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 39, submitted: 167}
+  acceptance_note: "2024: research track, both rounds (PC chairs' slides)."
   link: https://middleware-conf.github.io/2027/call-for-papers/
   when: Dec 13–17, 2027
   where: Kyoto, Japan
@@ -347,6 +398,10 @@
   tags: [arch, systems, mlsys]
   ccf: A
   icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 193, submitted: 922}
+    - {year: 2025, accepted: 177, submitted: 912}
+    - {year: 2026, accepted: 152, submitted: 1048}
   link: https://www.asplos-conference.org/asplos2027/cfp/
   when: Apr 11–15, 2027
   where: Crete, Greece
@@ -357,6 +412,49 @@
     - label: September Cycle
       paper: "2026-09-09 23:59"
 
+- name: ISCA
+  full: ACM/IEEE Int'l Symposium on Computer Architecture
+  edition: 2027
+  tags: [arch]
+  ccf: A
+  icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 83, submitted: 423}
+    - {year: 2025, accepted: 132, submitted: 570}
+    - {year: 2026, accepted: 161, submitted: 850}
+  link: https://iscaconf.org/isca2027/
+  when: Jun 5–9, 2027
+  where: Atlanta, GA, USA
+  status: watching
+  deadlines:
+    - label: Main track
+      abstract: "2026-11-09 23:59"
+      paper: "2026-11-16 23:59"
+      notification: "2027-03-26"
+    - label: Industry track
+      abstract: "2026-12-06 23:59"
+      paper: "2026-12-13 23:59"
+      notification: "2027-03-26"
+
+- name: HPCA
+  full: IEEE Int'l Symposium on High-Performance Computer Architecture
+  edition: 2027
+  tags: [arch]
+  ccf: A
+  icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 75, submitted: 410}
+    - {year: 2025, accepted: 121, submitted: 534}
+    - {year: 2026, accepted: 119, submitted: 563}
+  link: https://conf.researchr.org/home/hpca-2027
+  when: Mar 20–24, 2027
+  where: Salt Lake City, UT, USA
+  status: watching
+  deadlines:
+    - abstract: "2026-07-24 23:59"
+      paper: "2026-07-31 23:59"
+      notification: "2026-11-06"
+
 # ── ML systems ────────────────────────────────────────────
 
 - name: MLSys
@@ -365,6 +463,9 @@
   tags: [mlsys]
   ccf:
   icore:
+  acceptance:          # accepted / submitted per edition
+    - {year: 2025, accepted: 61, submitted: 271}
+    - {year: 2026, accepted: 135, submitted: 504}
   link: https://mlsys.org/
   when: Jun 21–25, 2027
   where: Bellevue, WA, USA
@@ -382,6 +483,8 @@
   tags: [perf, arch]
   ccf:
   icore:
+  acceptance:          # accepted / submitted per edition
+    - {year: 2025, accepted: 38, submitted: 91}
   link: https://iiswc.org/iiswc2026/
   when: Sep 28–29, 2026
   where: Boulder, CO, USA
@@ -396,6 +499,10 @@
   tags: [perf, arch]
   ccf: C
   icore: B
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 24, submitted: 70}
+    - {year: 2025, accepted: 28, submitted: 99}
+    - {year: 2026, accepted: 54, submitted: 138}
   link: https://ispass.org/2027/cfp/
   when: May 9–11, 2027
   where: New York City, USA (NYU)
@@ -413,6 +520,11 @@
   tags: [perf]
   ccf:
   icore: B
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, rate: 34.6}
+    - {year: 2025, rate: 34.7}
+    - {year: 2026, rate: 28.0}
+  acceptance_note: "Rates from icpe.spec.org (research + industry tracks); counts not published."
   link: https://icpe2027.spec.org/
   when: 2027
   where: Gothenburg, Sweden
@@ -430,6 +542,10 @@
   tags: [perf]
   ccf: B
   icore: A*
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 52, submitted: 336}
+    - {year: 2025, accepted: 66, submitted: 382}
+    - {year: 2026, accepted: 82, submitted: 479}
   link: https://www.sigmetrics.org/sigmetrics2027/
   when: Jun 7–11, 2027
   where: Atlanta, GA, USA
@@ -451,6 +567,8 @@
   tags: [perf]
   ccf: B
   icore: Journal Published
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 14, submitted: 52}
   link: https://performance2026.github.io/call/
   when: Nov 3–5, 2026
   where: Ghent, Belgium
@@ -480,6 +598,10 @@
   tags: [hpc]
   ccf: A
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 90, submitted: 376}
+    - {year: 2024, accepted: 99, submitted: 470}
+    - {year: 2025, accepted: 135, submitted: 623}
   link: https://sc26.supercomputing.org/
   when: Nov 16–20, 2026
   where: Chicago, IL, USA
@@ -494,6 +616,10 @@
   tags: [hpc, systems]
   ccf: A
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 26, submitted: 152}
+    - {year: 2025, accepted: 25, submitted: 133}
+    - {year: 2026, accepted: 40, submitted: 281}
   link: https://hpdc.sci.utah.edu/2026/
   when: Jul 14–16, 2026
   where: Cleveland, OH, USA
@@ -508,6 +634,10 @@
   tags: [hpc, systems]
   ccf: B
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2024, accepted: 88, submitted: 337}
+    - {year: 2025, accepted: 105, submitted: 425}
+    - {year: 2026, accepted: 101, submitted: 434}
   link: https://www.ipdps.org/
   when: Jun 1–5, 2027
   where: Seattle, WA, USA
@@ -537,6 +667,9 @@
   tags: [hpc]
   ccf: B
   icore: C
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, rate: 24.6}
+  acceptance_note: "Rate from an author homepage; official counts not found."
   link: https://clustercomp.org/2026
   when: Sep 23–25, 2026
   where: Alexandria, VA, USA
@@ -551,6 +684,10 @@
   tags: [hpc]
   ccf: B
   icore: B
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 49, submitted: 164}
+    - {year: 2025, accepted: 78, submitted: 264}
+    - {year: 2026, accepted: 87, submitted: 332}
   link: https://2026.euro-par.org/
   when: Aug 26–28, 2026
   where: Pisa, Italy
@@ -565,6 +702,10 @@
   tags: [hpc, arch]
   ccf: B
   icore: A
+  acceptance:          # accepted / submitted per edition
+    - {year: 2023, accepted: 40, submitted: 136}
+    - {year: 2024, accepted: 45, submitted: 125}
+    - {year: 2025, accepted: 83, submitted: 320}
   link: https://ics-conference.org/
   when: 2027
   where: Atlanta, GA, USA
