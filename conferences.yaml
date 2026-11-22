@@ -50,19 +50,20 @@
     - paper: "2026-05-08 23:59"
 
 - name: ICFEC
-  full: IEEE Int'l Conference on Fog and Edge Computing (co-located with CCGrid)
-  edition: 2026
+  full: IEEE Int'l Conference on Fog and Edge Computing (with CCGrid and QSys)
+  edition: 2027
   tags: [edge]
   ccf:
   icore: C
-  link: https://icfec2026.hanyang.ac.kr/
-  when: May 2026
-  where: Sydney, Australia
+  link: https://fcrlab.unime.it/icfec2027/
+  when: May 24–27, 2027
+  where: Dallas–Fort Worth, TX, USA
   status: watching
-  note: 2027 edition not announced yet; usually a January deadline.
+  note: Regular papers up to 10 pages incl. references; posters up to 4.
   deadlines:
-    - paper: "2026-01-09 23:59"
-      notification: "2026-02-16"
+    - paper: "2026-12-20 23:59"
+      notification: "2027-01-20"
+      camera_ready: "2027-03-16"
 
 - name: MobiSys
   full: ACM Int'l Conference on Mobile Systems, Applications, and Services
